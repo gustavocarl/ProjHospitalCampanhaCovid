@@ -4,68 +4,203 @@ namespace ProjHospitalCampanhaCovid
 {
     internal class Program
     {
-        public static int MenuPrincipal()
+        static void Main(string[] args)
         {
-            int opcao = 0;
-            string selecao;
-            bool flag = true;
+            #region Variáveis
+
+            string opcao;
+
+            #endregion
+
+            #region Inicialização de Classes
+
+            ControleDeFluxoDePacientes controle = new ControleDeFluxoDePacientes();
+
+            #endregion
+
+            #region Inicialização dos Leitos
+
+            controle.Internacao.Leitos();
+
+            #endregion
+
+            #region Opções do Menu
+
             do
             {
                 Console.Clear();
-                Console.WriteLine("Sistema COVID");
-                Console.WriteLine("1 - Entrada de Paciente\n2 - Buscar de Paciente\n3 - Internações" +
-                    "\n4 - Triagem\n5 - Arquivados(Sem Covid)\n6 - Exames\n0 - Sair");
-                selecao = Console.ReadLine();
-                int.TryParse(selecao, out opcao);
-                if ((opcao < 0) || (opcao > 6))
-                {
-                    Console.WriteLine("Opção inválida");
-                    Console.WriteLine("Pressione ENTER para voltar...");
-                    Console.ReadKey();
-                }
-                else
-                {
-                    flag = false;
-                }
-            } while (flag);
-
-
-            return opcao;
-        }
-
-        static void Main(string[] args)
-        {
-            int opcao = 0;
-            bool flag = true;
-
-            opcao = MenuPrincipal();
-
-            do
-            {
+                opcao = MenuPrincipal();
                 switch (opcao)
                 {
-                    case 0:
+                    case "0":
                         break;
-                    case 1:
-                        Console.WriteLine("Entrada de Paciente");
+                    case "1":
+                        controle.InserirPaciente();
                         break;
-                    case 2:
-                        Console.WriteLine("Buscar de Paciente");
+                    case "2":
+                        controle.Recepcao();
                         break;
-                    case 3:
-                        Console.WriteLine("Internações");
+                    case "3":
+                        controle.Triagem();
                         break;
-                    case 4:
-                        Console.WriteLine("Triagem");
+                    case "4":
+                        ListaDeArquivados();
                         break;
-                    case 5:
-                        Console.WriteLine("Arquivados(Sem Covid)");
+                    case "5":
+                        FilaCovid();
                         break;
-                    case 6:
-                        Console.WriteLine("Exames");
+                    case "6":
+                        ListaDeEmergencia();
+                        break;
+                    case "7":
+                        Internacao();
                         break;
                 }
-            } while (flag);
+            } while (opcao != "0");
+
+            #endregion
+
+            #region Menu Principal
+
+            string MenuPrincipal()
+            {
+                Console.Clear();
+                Console.WriteLine("Sistema COVID");
+                Console.WriteLine("1 - Entrada de Paciente");
+                Console.WriteLine("2 - Recepção");
+                Console.WriteLine("3 - Triagem");
+                Console.WriteLine("4 - Lista de Arquivados");
+                Console.WriteLine("5 - Fila Covid");
+                Console.WriteLine("6 - Fila de Emergência");
+                Console.WriteLine("7 - Internaçãos");
+                Console.WriteLine("0 - Sair");
+                return Console.ReadLine();
+            }
+
+            #endregion
+
+            #region Lista de Emergência 
+
+            void ListaDeEmergencia()
+            {
+                string opcao = "a";
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("Fila de Emergência");
+                    Console.WriteLine("1 - Buscar Paciente");
+                    Console.WriteLine("2 - Imprimir Lista de Emergência");
+                    Console.WriteLine("3 - Adicionar Paciente a Fila de Emergência");
+                    Console.WriteLine("0 - Sair");
+                    opcao = Console.ReadLine();
+                    switch (opcao)
+                    {
+                        case "1":
+                            controle.FilaEmergencia.BuscarEmergencia();
+                            break;
+                        case "2":
+                            controle.FilaEmergencia.ImprimirFilaDeEmergencia();
+                            break;
+                        case "3":
+                            controle.InserirEmergencia();
+                            break;
+                    }
+                } while (opcao != "0");
+
+            }
+
+            #endregion
+
+            #region Internação
+
+            void Internacao()
+            {
+                string opcao = "a";
+
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("Internação");
+                    Console.WriteLine("1 - Buscar Paciente");
+                    Console.WriteLine("2 - Imprimir Lista de Internação");
+                    Console.WriteLine("3 - Quantidade de Leitos Disponíveis");
+                    Console.WriteLine("4 - Alterar Quantidade de Leitos");
+                    Console.WriteLine("0 - Sair");
+                    opcao = Console.ReadLine();
+                    switch (opcao)
+                    {
+                        case "1":
+                            controle.Internacao.BuscarInternacao();
+                            break;
+                        case "2":
+                            controle.Internacao.ImprimirInternacao();
+                            break;
+                        case "3":
+                            controle.Internacao.VerificarLeitos();
+                            break;
+                        case "4":
+                            controle.Internacao.Leitos();
+                            break;
+                    }
+                } while (opcao != "0");
+
+            }
+
+            #endregion
+
+            #region Lista de Arquivados
+
+            void ListaDeArquivados()
+            {
+                string opcao = "a";
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("Lista de Arquivados");
+                    Console.WriteLine("1 - Buscar Paciente");
+                    Console.WriteLine("2 - Imprimir Lista de Arquivados");
+                    Console.WriteLine("0 - Sair");
+                    opcao = Console.ReadLine();
+                    switch (opcao)
+                    {
+                        case "1":
+                            controle.ListaDePacientesArquivados.BuscarArquivado();
+                            break;
+                        case "2":
+                            controle.ListaDePacientesArquivados.ImprimirListaDePacientesArquivados();
+                            break;
+                    }
+                } while (opcao != "0");
+            }
+
+            #endregion
+
+            #region Fila Covid
+
+            void FilaCovid()
+            {
+                string opcao = "a";
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("Fila Covid");
+                    Console.WriteLine("1 - Buscar Paciente");
+                    Console.WriteLine("2 - Imprimir Fila Covid");
+                    Console.WriteLine("0 - Sair");
+                    opcao = Console.ReadLine();
+                    switch (opcao)
+                    {
+                        case "1":
+                            controle.FilaCovid.BuscarFilaCovid();
+                            break;
+                        case "2":
+                            controle.FilaCovid.ImprimirFilaCovid();
+                            break;
+                    }
+                } while (opcao != "0");
+            }
+
+            #endregion
         }
     }
 }
