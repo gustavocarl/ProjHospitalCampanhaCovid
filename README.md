@@ -1,6 +1,6 @@
 # ProjHospitalCampanhaCovid
 
-# Inicio do Software #
+# Inicio do Software
 # É preciso informar a quantidade de leitos #
 # Primeiramente você deve usar a entrada de paciente para pedir uma senha. #
 # Caso o Paciente esteja em estado de emergência é possível pedir os dados diretamente na emergência. #
